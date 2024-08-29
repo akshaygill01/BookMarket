@@ -3,6 +3,7 @@ package com.akshay.book.role;
 import com.akshay.book.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,24 +17,25 @@ import java.util.List;
 @Builder
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class Role {
     @Id
     @GeneratedValue
     private int id;
+
     @Column(unique = true)
     private String name;
+
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     private List<User> users;
 
-
     @CreatedDate
-    @Column(updatable = false,nullable = false)
+    @Column(updatable = false, nullable = false)
     private LocalDateTime createdDate;
 
-    @org.springframework.data.annotation.LastModifiedDate
+    @LastModifiedDate
     @Column(insertable = false)
-    private LocalDateTime LastModifiedDate;
-
+    private LocalDateTime lastModifiedDate;
 
 }

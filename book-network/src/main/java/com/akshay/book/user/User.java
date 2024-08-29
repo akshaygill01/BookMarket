@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Table(name = "_users")
 @EntityListeners(AuditingEntityListener.class )
 public class User implements UserDetails ,Principal{
-//    auditing entity listener is for to keep track of when the user was created/updated
+//    auditing entity listener is for to keeping track of when the user was created/updated
 //Automatic Auditing: It allows for automatic population of audit-related fields (e.g., createdBy, createdDate, lastModifiedBy, lastModifiedDate)
 //    in your entity classes
     @Id
