@@ -2,9 +2,7 @@ package com.akshay.book.user;
 
 import com.akshay.book.role.Role;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Generated;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,11 +17,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "_users")
-@EntityListeners(AuditingEntityListener.class )
+@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails ,Principal{
 //    auditing entity listener is for to keeping track of when the user was created/updated
 //Automatic Auditing: It allows for automatic population of audit-related fields (e.g., createdBy, createdDate, lastModifiedBy, lastModifiedDate)
@@ -38,6 +39,7 @@ public class User implements UserDetails ,Principal{
     private LocalDate dateOfBirth;
     private String password;
     private boolean accountLocked;
+    private boolean enabled;
 
     @CreatedDate
     @Column(updatable = false,nullable = false)
