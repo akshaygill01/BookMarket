@@ -1,10 +1,14 @@
 package com.akshay.book.authentication;
 
+import com.akshay.book.email.EmailService;
+import com.akshay.book.email.EmailTemplateName;
 import com.akshay.book.response.Response;
 import com.akshay.book.role.RoleRepository;
 import com.akshay.book.user.Token;
+import com.akshay.book.user.TokenRepository;
 import com.akshay.book.user.User;
 import com.akshay.book.user.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,16 +28,21 @@ public class AuthenticationService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final EmailService emailService;
+    private final TokenRepository tokenRepository;
 
-    @Value("{accountactivationtoken.length}")
+    @Value("${account.activation.token.length}")
     private int activationTokenLength;
+    @Value("${account.activation.token.expiry-time}")
     private int activationTokenExpiryTime;
+    @Value("${account.activation-url}")
+    private String activationUrl;
 
-    public Response<String> registerUser(RegisterRequest request) throws  Exception{
+    public Response<?> registerUser(RegisterRequest request) throws  Exception{
 
        var userRole  =  roleRepository.findByName("USER").orElseThrow(()-> new IllegalArgumentException("role is not initialized"));
 
-       var user  = User.builder().
+       var user  = User.builder(). 
                    firstName(request.getFirstName()).
                    lastName(request.getLastName()).
                    email(request.getEmail()).
@@ -45,17 +54,25 @@ public class AuthenticationService {
 
        userRepository.save(user);
        sendValidationEmail(user);
+       return Response.success("User registered successfully",null);
     }
 
-    private void sendValidationEmail(User user) {
+    private void sendValidationEmail(User user) throws MessagingException {
         var newToken  = generateAndSaveActivationToken(user);
+        emailService.sendEmail(user.getEmail(),user.getFullName() , EmailTemplateName.ACTIVATE_ACCOUNT , activationUrl , newToken , "Account Activation");
     }
 
     private String generateAndSaveActivationToken(User user) {
 //        generate token;
         String generatedToken = generateActivationToken(activationTokenLength);
-//        send Email
-        Token.builder().token(generatedToken).createdAt(LocalDateTime.now()).expiresAt(LocalDateTime.now() + activationTokenExpiryTime).build();
+        var token = Token.builder().
+                token(generatedToken).
+                createdAt(LocalDateTime.now()).
+                expiresAt(LocalDateTime.now().plusMinutes(activationTokenExpiryTime)).
+                user(user).build();
+
+        tokenRepository.save(token);
+        return generatedToken;
                 
     }
 
