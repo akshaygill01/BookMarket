@@ -4,12 +4,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class RegisterRequest {
     @NotBlank(message = "firstName can't be blank")
