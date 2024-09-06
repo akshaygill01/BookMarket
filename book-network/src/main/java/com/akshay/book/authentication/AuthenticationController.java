@@ -19,14 +19,29 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
-    public ResponseEntity<Response<?>> registerUser(@RequestBody @Valid RegisterRequest request) {
+//    signup
+    @PostMapping("/signup")
+    public ResponseEntity<Response<?>> signUp(@RequestBody @Valid RegisterRequest request) {
         log.trace("Received registration request: {}", request);
         try {
-            return ResponseEntity.ok().body(authenticationService.registerUser(request));
+            return ResponseEntity.ok().body(authenticationService.signUp(request));
+        } catch (Exception e) {
+            log.error(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage()));
+        }
+    }
+
+//    login
+
+   @PostMapping("/login")
+    public ResponseEntity<Response<LoginResponse>> authenticateUser(@RequestBody @Valid LoginRequest request) {
+        log.trace("Received login request: {}", request);
+        try {
+            return ResponseEntity.ok().body(authenticationService.loginUser(request));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage()));
         }
-    }
+
+   }
 }

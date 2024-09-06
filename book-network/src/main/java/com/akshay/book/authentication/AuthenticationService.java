@@ -4,20 +4,27 @@ import com.akshay.book.email.EmailService;
 import com.akshay.book.email.EmailTemplateName;
 import com.akshay.book.response.Response;
 import com.akshay.book.role.RoleRepository;
+import com.akshay.book.security.JwtService;
 import com.akshay.book.user.Token;
 import com.akshay.book.user.TokenRepository;
 import com.akshay.book.user.User;
 import com.akshay.book.user.UserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -30,6 +37,8 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final TokenRepository tokenRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @Value("${account.activation.token.length}")
     private int activationTokenLength;
@@ -38,9 +47,15 @@ public class AuthenticationService {
     @Value("${account.activation-url}")
     private String activationUrl;
 
-    public Response<?> registerUser(RegisterRequest request) throws  Exception{
+//    @Transactional(rollbackFor = Exception.class)
+    public Response<?> signUp(RegisterRequest request) throws  Exception{
 
        var userRole  =  roleRepository.findByName("USER").orElseThrow(()-> new IllegalArgumentException("role is not initialized"));
+
+       var isUserAlreadyExists  = userRepository.getUserByEmail(request.getEmail());
+       if(isUserAlreadyExists.isPresent()) {
+           throw new IllegalArgumentException("User already exists");
+       }
 
        var user  = User.builder(). 
                    firstName(request.getFirstName()).
@@ -86,5 +101,22 @@ public class AuthenticationService {
             sb.append(validCharacters.charAt(randomIndex));
         }
         return sb.toString();
+    }
+
+    public Response<LoginResponse> loginUser(@Valid LoginRequest request) throws  Exception {
+        var auth = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(request.getEmail() , request.getPassword()));
+
+        var user = (User)auth.getPrincipal();
+
+//        if user account is not enabled
+        if(user.getAuthorities().)
+
+        Map<String , Object> claims = new HashMap<String , Object>();
+        claims.put("username" , user.getFullName());
+
+        var token = jwtService.generateToken(claims , user);
+        LoginResponse loginResponse = LoginResponse.builder().token(token).build();
+
+        return Response.success("User Logged in Successfully", loginResponse);
     }
 }
