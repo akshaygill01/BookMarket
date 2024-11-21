@@ -16,11 +16,10 @@ public class Response<T> {
     private  boolean success;
     private HttpStatus httpStatus;
     private   String message;
-    private Set<String> validationErrors;
     private   T data;
 
     public static <T> Response<T> success(String message, T data) {
-        return new Response<>(true,HttpStatus.OK, message, data);
+        return new Response<T>(true,HttpStatus.OK, message, data);
     }
 
 
@@ -31,6 +30,5 @@ public class Response<T> {
     public  static <T> Response<T> error(String message,HttpStatus statusCode) {
         return new Response<>(false,statusCode , message ,null);
     }
-
 
 }

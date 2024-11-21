@@ -103,20 +103,20 @@ public class AuthenticationService {
         return sb.toString();
     }
 
-    public Response<LoginResponse> loginUser(@Valid LoginRequest request) throws  Exception {
-        var auth = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(request.getEmail() , request.getPassword()));
-
-        var user = (User)auth.getPrincipal();
-
-//        if user account is not enabled
-        if(user.getAuthorities().)
-
-        Map<String , Object> claims = new HashMap<String , Object>();
-        claims.put("username" , user.getFullName());
-
-        var token = jwtService.generateToken(claims , user);
-        LoginResponse loginResponse = LoginResponse.builder().token(token).build();
-
-        return Response.success("User Logged in Successfully", loginResponse);
-    }
+//    public Response<LoginResponse> loginUser(@Valid LoginRequest request) throws  Exception {
+//        var auth = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(request.getEmail() , request.getPassword()));
+//
+//        var user = (User)auth.getPrincipal();
+//
+////        if user account is not enabled
+//        if(user.getAuthorities().)
+//
+//        Map<String , Object> claims = new HashMap<String , Object>();
+//        claims.put("username" , user.getFullName());
+//
+//        var token = jwtService.generateToken(claims , user);
+//        LoginResponse loginResponse = LoginResponse.builder().token(token).build();
+//
+//        return Response.success("User Logged in Successfully", loginResponse);
+//    }
 }

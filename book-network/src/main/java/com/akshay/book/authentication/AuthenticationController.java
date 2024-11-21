@@ -33,15 +33,15 @@ public class AuthenticationController {
 
 //    login
 
-   @PostMapping("/login")
-    public ResponseEntity<Response<LoginResponse>> authenticateUser(@RequestBody @Valid LoginRequest request) {
-        log.trace("Received login request: {}", request);
-        try {
-            return ResponseEntity.ok().body(authenticationService.loginUser(request));
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage()));
-        }
-
-   }
+//   @PostMapping("/login")
+//    public ResponseEntity<Response<LoginResponse>> authenticateUser(@RequestBody @Valid LoginRequest request) {
+//        log.trace("Received login request: {}", request);
+//        try {
+//            return ResponseEntity.ok().body(authenticationService.loginUser(request));
+//        } catch (Exception e) {
+//            log.error(e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage()));
+//        }
+//
+//   }
 }
