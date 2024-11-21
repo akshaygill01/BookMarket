@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Role {
     @Id
     @GeneratedValue
@@ -31,7 +33,7 @@ public class Role {
     private List<User> users;
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(updatable = false , nullable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate

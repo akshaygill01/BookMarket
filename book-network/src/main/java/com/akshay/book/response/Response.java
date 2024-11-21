@@ -1,16 +1,23 @@
 package com.akshay.book.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
+import java.util.Set;
+
 @Getter
+@Setter
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Response<T> {
-    private final boolean success;
+    private  boolean success;
     private HttpStatus httpStatus;
-    private final  String message;
-    private final  T data;
+    private   String message;
+    private Set<String> validationErrors;
+    private   T data;
 
     public static <T> Response<T> success(String message, T data) {
         return new Response<>(true,HttpStatus.OK, message, data);
