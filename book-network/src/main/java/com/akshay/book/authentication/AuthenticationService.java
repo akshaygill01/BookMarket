@@ -2,6 +2,8 @@ package com.akshay.book.authentication;
 
 import com.akshay.book.email.EmailService;
 import com.akshay.book.email.EmailTemplateName;
+import com.akshay.book.models.LoginRequest;
+import com.akshay.book.models.LoginResponse;
 import com.akshay.book.models.Response;
 import com.akshay.book.repository.RoleRepository;
 import com.akshay.book.security.JwtService;
@@ -10,16 +12,21 @@ import com.akshay.book.repository.TokenRepository;
 import com.akshay.book.bean.User;
 import com.akshay.book.repository.UserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -98,20 +105,25 @@ public class AuthenticationService {
         return sb.toString();
     }
 
-//    public Response<LoginResponse> loginUser(@Valid LoginRequest request) throws  Exception {
-//        var auth = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(request.getEmail() , request.getPassword()));
-//
-//        var user = (User)auth.getPrincipal();
-//
-////        if user account is not enabled
-//        if(user.getAuthorities().)
-//
-//        Map<String , Object> claims = new HashMap<String , Object>();
-//        claims.put("username" , user.getFullName());
-//
-//        var token = jwtService.generateToken(claims , user);
-//        LoginResponse loginResponse = LoginResponse.builder().token(token).build();
-//
-//        return Response.success("User Logged in Successfully", loginResponse);
-//    }
+    public Response<LoginResponse> loginUser(@Valid LoginRequest request) throws  Exception {
+        log.trace("logout request: {}",request);
+        var auth = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(request.getEmail() , request.getPassword()));
+
+        var user = (User)auth.getPrincipal();
+        log.trace("fetched User: {}",user);
+
+
+//        if user account is not enabled
+        if(!user.isEnabled()) {
+            return Response.error("User account is not enabled", HttpStatus.UNAUTHORIZED);
+        }
+
+        Map<String , Object> claims = new HashMap<>();
+        claims.put("username" , user.getFullName());
+
+        var token = jwtService.generateToken(claims , user);
+        LoginResponse loginResponse = LoginResponse.builder().token(token).build();
+
+        return Response.success("User Logged in Successfully", loginResponse);
+    }
 }

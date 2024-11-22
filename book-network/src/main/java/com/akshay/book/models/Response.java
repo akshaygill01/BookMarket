@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Response<T> {
+public class Response<T> extends Throwable {
     private  boolean success;
     private HttpStatus httpStatus;
     private   String message;
