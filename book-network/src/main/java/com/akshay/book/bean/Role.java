@@ -1,6 +1,5 @@
-package com.akshay.book.role;
+package com.akshay.book.bean;
 
-import com.akshay.book.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

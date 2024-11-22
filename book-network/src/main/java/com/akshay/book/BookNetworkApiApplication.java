@@ -1,7 +1,7 @@
 package com.akshay.book;
 
-import com.akshay.book.role.Role;
-import com.akshay.book.role.RoleRepository;
+import com.akshay.book.bean.Role;
+import com.akshay.book.repository.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

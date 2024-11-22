@@ -1,4 +1,4 @@
-package com.akshay.book.book;
+package com.akshay.book.bean;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedBy;

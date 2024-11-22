@@ -1,5 +1,6 @@
-package com.akshay.book.role;
+package com.akshay.book.repository;
 
+import com.akshay.book.bean.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

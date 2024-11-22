@@ -1,6 +1,6 @@
 package com.akshay.book.handler;
 
-import com.akshay.book.response.Response;
+import com.akshay.book.models.Response;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

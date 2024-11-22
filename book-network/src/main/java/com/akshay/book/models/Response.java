@@ -1,10 +1,8 @@
-package com.akshay.book.response;
+package com.akshay.book.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.springframework.http.HttpStatus;
-
-import java.util.Set;
 
 @Getter
 @Setter

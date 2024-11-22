@@ -54,6 +54,8 @@ public class EmailService {
             String template = springTemplateEngine.process(templateName, context);
             mimeMessageHelper.setText(template, true);
 
+//            to test locally
+
             javaMailSender.send(mimeMessage);
             return true; // Indicate that the email was sent successfully
 

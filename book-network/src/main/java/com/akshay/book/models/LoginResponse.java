@@ -1,4 +1,4 @@
-package com.akshay.book.authentication;
+package com.akshay.book.models;
 
 import lombok.Builder;
 import lombok.Getter;

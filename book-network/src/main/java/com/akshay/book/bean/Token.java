@@ -1,4 +1,4 @@
-package com.akshay.book.user;
+package com.akshay.book.bean;
 
 import jakarta.persistence.*;
 import lombok.*;

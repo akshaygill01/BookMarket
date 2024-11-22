@@ -1,6 +1,5 @@
-package com.akshay.book.user;
+package com.akshay.book.bean;
 
-import com.akshay.book.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

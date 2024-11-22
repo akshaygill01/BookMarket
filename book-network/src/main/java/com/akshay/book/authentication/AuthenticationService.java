@@ -2,29 +2,24 @@ package com.akshay.book.authentication;
 
 import com.akshay.book.email.EmailService;
 import com.akshay.book.email.EmailTemplateName;
-import com.akshay.book.response.Response;
-import com.akshay.book.role.RoleRepository;
+import com.akshay.book.models.Response;
+import com.akshay.book.repository.RoleRepository;
 import com.akshay.book.security.JwtService;
-import com.akshay.book.user.Token;
-import com.akshay.book.user.TokenRepository;
-import com.akshay.book.user.User;
-import com.akshay.book.user.UserRepository;
+import com.akshay.book.bean.Token;
+import com.akshay.book.repository.TokenRepository;
+import com.akshay.book.bean.User;
+import com.akshay.book.repository.UserRepository;
 import jakarta.mail.MessagingException;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service

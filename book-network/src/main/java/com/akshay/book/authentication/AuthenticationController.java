@@ -1,6 +1,6 @@
 package com.akshay.book.authentication;
 
-import com.akshay.book.response.Response;
+import com.akshay.book.models.Response;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

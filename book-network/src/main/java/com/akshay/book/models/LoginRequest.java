@@ -1,4 +1,4 @@
-package com.akshay.book.authentication;
+package com.akshay.book.models;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
