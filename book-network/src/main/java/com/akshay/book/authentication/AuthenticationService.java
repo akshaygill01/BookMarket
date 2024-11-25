@@ -106,14 +106,14 @@ public class AuthenticationService {
     }
 
     public Response<LoginResponse> loginUser(@Valid LoginRequest request) throws  Exception {
-        log.trace("logout request: {}",request);
         var auth = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(request.getEmail() , request.getPassword()));
 
         var user = (User)auth.getPrincipal();
-        log.trace("fetched User: {}",user);
+        log.trace("fetched User: {}",user.toString());
 
 
 //        if user account is not enabled
+        log.trace("user enabled; {}", user.isEnabled());
         if(!user.isEnabled()) {
             return Response.error("User account is not enabled", HttpStatus.UNAUTHORIZED);
         }

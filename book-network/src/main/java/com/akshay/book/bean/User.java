@@ -101,4 +101,18 @@ public class User implements UserDetails ,Principal{
     public String getFullName() {
         return firstName + " " + lastName;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", accountLocked=" + accountLocked +
+                ", enabled=" + enabled +
+                '}';
+    }
+
 }
