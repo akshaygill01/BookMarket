@@ -1,6 +1,6 @@
 package com.akshay.book.history;
 
-import com.akshay.book.bean.Book;
+import com.akshay.book.bean.Book.Book;
 import com.akshay.book.bean.User;
 import com.akshay.book.common.BaseEntity;
 import jakarta.persistence.Entity;

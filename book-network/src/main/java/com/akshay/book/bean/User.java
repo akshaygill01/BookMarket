@@ -1,5 +1,6 @@
 package com.akshay.book.bean;
 
+import com.akshay.book.bean.Book.Book;
 import com.akshay.book.history.BookTransactionHistory;
 import jakarta.persistence.*;
 import lombok.*;

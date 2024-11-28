@@ -20,6 +20,10 @@ public class Response<T> {
         return new Response<T>(true,HttpStatus.OK, message, data);
     }
 
+    public static <T> Response<T> success(String message) {
+        return new Response<T>(true,HttpStatus.OK, message, null);
+    }
+
 
     public  static <T> Response<T> error(String message) {
         return new Response<>(false,HttpStatus.INTERNAL_SERVER_ERROR , message ,null);

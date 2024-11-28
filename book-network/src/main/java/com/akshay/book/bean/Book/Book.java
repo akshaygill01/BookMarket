@@ -1,15 +1,13 @@
-package com.akshay.book.bean;
+package com.akshay.book.bean.Book;
 
+import com.akshay.book.bean.Feedback;
+import com.akshay.book.bean.User;
 import com.akshay.book.common.BaseEntity;
 import com.akshay.book.history.BookTransactionHistory;
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
