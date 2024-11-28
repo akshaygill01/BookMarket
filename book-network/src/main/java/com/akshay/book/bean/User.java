@@ -1,5 +1,6 @@
 package com.akshay.book.bean;
 
+import com.akshay.book.history.BookTransactionHistory;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -39,6 +40,12 @@ public class User implements UserDetails ,Principal{
     private String password;
     private boolean accountLocked;
     private boolean enabled;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> histories;
 
     @CreatedDate
     @Column(updatable = false,nullable = false)
@@ -95,7 +102,7 @@ public class User implements UserDetails ,Principal{
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled();
     }
 
     public String getFullName() {

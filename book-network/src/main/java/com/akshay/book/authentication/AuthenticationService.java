@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -125,5 +126,28 @@ public class AuthenticationService {
         LoginResponse loginResponse = LoginResponse.builder().token(token).build();
 
         return Response.success("User Logged in Successfully", loginResponse);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Response<String> activateAccount(String token) throws MessagingException {
+        Token storedToken  = tokenRepository.findByToken(token).orElseThrow(
+                () -> new RuntimeException("Invalid Activation Token"));
+
+        /// check if validation token is not expired
+        if(LocalDateTime.now().isAfter(storedToken.getValidatedAt())) {
+            sendValidationEmail(storedToken.getUser());
+            throw new RuntimeException("Activation token has expired , a new activation token email has been sent");
+        }
+
+        var user = userRepository.findById(storedToken.getUser().getId()).orElseThrow(
+                ()-> new RuntimeException("user not found")
+        );
+        /// activate user account
+        user.setEnabled(true);
+        userRepository.save(user);
+        storedToken.setValidatedAt(LocalDateTime.now());
+        tokenRepository.save(storedToken);
+
+        return Response.success("User Account Activated Successfully",null);
     }
 }

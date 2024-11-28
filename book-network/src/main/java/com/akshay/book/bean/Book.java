@@ -1,25 +1,25 @@
 package com.akshay.book.bean;
 
+import com.akshay.book.common.BaseEntity;
+import com.akshay.book.history.BookTransactionHistory;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Book extends BaseEntity {
 
     @Column(nullable = false, length = 100)
     private String title;
@@ -39,19 +39,15 @@ public class Book {
 
     private Boolean shareable;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
+    @OneToMany( mappedBy = "book")
+    private List<Feedback> feedbacks;
 
-    @CreatedBy
-    @Column(nullable = false, updatable = false)
-    private Integer createdBy;
+    @OneToMany(mappedBy = "book")
+    private List<BookTransactionHistory> histories;
 
-    @LastModifiedBy
-    @Column(insertable = false)
-    private Integer modifiedBy;
+
 }
